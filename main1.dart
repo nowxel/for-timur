@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constanst.dart';
+
+import 'package:flutter/material.dart';
 
 
 void main() => runApp(MyApp());
@@ -22,66 +25,71 @@ class _IntroSliderState extends State<IntroSlider> {
 
   final messages = ["First Screen", "Second Screen", "Third Screen"];
   final images = [
-    'assets/images/slider1.jpg',
-    'assets/images/slider2.jpg',
-    'assets/images/slider3.jpg'
+    'assets/images/slider1.png',
+    'assets/images/slider2.png',
+    'assets/images/slider3.png'
   ];
 
   int numberOfPages=3;
   int currentPage=0;
 
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-  body: Stack(
-    children: <Widget>[PageView.builder(
-    controller: controller,
-    onPageChanged: (index){
-      setState(() {
-        currentPage=index;
-      });
-    },
-    itemCount: numberOfPages,
-    itemBuilder: (BuildContext context, int index) {
-      return EachPage(messages[index], images[index]);
-    },
-  ),
-  Align(
-    alignment: Alignment.bottomCenter,
-    child: Container(
-        height: 50,
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-        Flexible(child: Container()),
-    Flexible(
-      child: Indicator(
-        controller: controller,
-      ),
-    ),
-    Flexible(
-
-      child: (currentPage==numberOfPages-1)?
-      GestureDetector(
-          onTap: (){},
-          child: Center(
-              child: RaisedButton(
-                onPressed: () {},
-                child: Text("Login",style: TextStyle(fontWeight: FontWeight.bold)),
-              ))):
-      GestureDetector(
-          onTap: (){
-            controller.jumpToPage(numberOfPages-1);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[PageView.builder(
+          controller: controller,
+          onPageChanged: (index){
+            setState(() {
+              currentPage=index;
+            });
           },
-          child: Center(child: Text("Skip",style: TextStyle(fontWeight: FontWeight.bold),))),
-    )
-    ],),
-),
-  )
-  ],
-  ),
-  );
-}
+          itemCount: numberOfPages,
+          itemBuilder: (BuildContext context, int index) {
+            return EachPage(messages[index], images[index]);
+          },
+        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Flexible(child: Container()),
+                  Flexible(
+                    child: Indicator(
+                      controller: controller,
+                    ),
+                  ),
+                  Flexible(
+
+                    child: (currentPage==numberOfPages-1)?
+                    GestureDetector(
+                        onTap: (){},
+                        child: Center(
+                            child: RaisedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Constants()),
+                                );
+                              },
+                              child: Text("Login",style: TextStyle(fontWeight: FontWeight.bold)),
+                            ))):
+                    GestureDetector(
+                        onTap: (){
+                          controller.jumpToPage(numberOfPages-1);
+                        },
+                        child: Center(child: Text("Skip",style: TextStyle(fontWeight: FontWeight.bold),))),
+                  )
+                ],),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
 
 class Indicator extends AnimatedWidget {
@@ -95,16 +103,16 @@ class Indicator extends AnimatedWidget {
     return Container(
       height: 50,
       child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[ListView.builder(
-      shrinkWrap: true,
-          itemCount: pageCount,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context,index){
-            return _createIndicator(index);
-          })],
-    ),
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[ListView.builder(
+            shrinkWrap: true,
+            itemCount: pageCount,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context,index){
+              return _createIndicator(index);
+            })],
+      ),
     );
   }
   Widget _createIndicator(index) {
@@ -147,21 +155,21 @@ class EachPage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        color: Colors.amberAccent,
+        color: Colors.white,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-          Image.asset(
-          image,
-            fit: BoxFit.scaleDown,
-            width: 200,
-            height: 200,),
-          Text(message)
-          ],
+              Image.asset(
+                image,
+                fit: BoxFit.scaleDown,
+                width: 200,
+                height: 200,),
+              Text(message)
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
